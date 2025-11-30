@@ -1,0 +1,310 @@
+// src/app/post-load/page.js
+"use client";
+
+import { useState } from "react";
+import API_BASE_URL from "../../config/api";
+
+export default function PostLoadPage() {
+  const [formData, setFormData] = useState({
+    originCity: "",
+    originState: "",
+    destinationCity: "",
+    destinationState: "",
+    pickupDate: "",
+    equipment: "",
+    weight: "",
+    distance: "",
+    price: "",
+    ratePerMile: "",
+    commodity: "",
+    company: "",
+    deadhead: "",
+    creditScore: "",
+    factoring: false,
+    daysToPay: "",
+    brokerPhone: "",
+    specialInstructions: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState({ type: "", text: "" });
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage({ type: "", text: "" });
+
+    // Basic validation
+    if (
+      !formData.originCity ||
+      !formData.originState ||
+      !formData.destinationCity ||
+      !formData.destinationState ||
+      !formData.pickupDate ||
+      !formData.equipment ||
+      !formData.price ||
+      !formData.distance
+    ) {
+      setMessage({ type: "error", text: "Please fill in all required fields." });
+      setLoading(false);
+      return;
+    }
+
+    const loadBody = {
+      origin: { city: formData.originCity, state: formData.originState },
+      destination: {
+        city: formData.destinationCity,
+        state: formData.destinationState,
+      },
+      pickupDate: formData.pickupDate,
+      equipment: formData.equipment,
+      weight: Number(formData.weight),
+      distance: Number(formData.distance),
+      price: Number(formData.price),
+      ratePerMile: Number(formData.ratePerMile),
+      commodity: formData.commodity,
+      status: "Open",
+      company: formData.company,
+      deadhead: Number(formData.deadhead),
+      creditScore: Number(formData.creditScore),
+      factoring: formData.factoring,
+      daysToPay: Number(formData.daysToPay),
+      brokerPhone: formData.brokerPhone,
+      specialInstructions: formData.specialInstructions,
+    };
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/loads`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(loadBody),
+      });
+
+      if (!res.ok) throw new Error("Failed to post load");
+
+      setMessage({
+        type: "success",
+        text: "Load posted successfully!",
+      });
+
+      // Reset form
+      setFormData({
+        originCity: "",
+        originState: "",
+        destinationCity: "",
+        destinationState: "",
+        pickupDate: "",
+        equipment: "",
+        weight: "",
+        distance: "",
+        price: "",
+        ratePerMile: "",
+        commodity: "",
+        company: "",
+        deadhead: "",
+        creditScore: "",
+        factoring: false,
+        daysToPay: "",
+        brokerPhone: "",
+        specialInstructions: "",
+      });
+    } catch (err) {
+      setMessage({ type: "error", text: err.message });
+    }
+
+    setLoading(false);
+  };
+
+  return (
+    <div className="max-w-3xl mx-auto py-10 px-6">
+      <h1 className="text-3xl font-bold mb-4">Post a New Load</h1>
+      <p className="mb-6 text-gray-700">
+        Fill out the details below to post a load to the board.
+      </p>
+
+      {message.text && (
+        <div
+          className={`p-3 mb-4 text-white rounded ${
+            message.type === "success" ? "bg-green-600" : "bg-red-600"
+          }`}
+        >
+          {message.text}
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
+        {/* ORIGIN */}
+        <div className="grid grid-cols-2 gap-4">
+          <input
+            name="originCity"
+            value={formData.originCity}
+            onChange={handleChange}
+            placeholder="Origin City"
+            className="p-3 border rounded"
+          />
+          <input
+            name="originState"
+            value={formData.originState}
+            onChange={handleChange}
+            placeholder="Origin State"
+            className="p-3 border rounded"
+          />
+        </div>
+
+        {/* DESTINATION */}
+        <div className="grid grid-cols-2 gap-4">
+          <input
+            name="destinationCity"
+            value={formData.destinationCity}
+            onChange={handleChange}
+            placeholder="Destination City"
+            className="p-3 border rounded"
+          />
+          <input
+            name="destinationState"
+            value={formData.destinationState}
+            onChange={handleChange}
+            placeholder="Destination State"
+            className="p-3 border rounded"
+          />
+        </div>
+
+        <input
+          type="date"
+          name="pickupDate"
+          value={formData.pickupDate}
+          onChange={handleChange}
+          className="p-3 border rounded"
+        />
+
+        <input
+          name="equipment"
+          value={formData.equipment}
+          onChange={handleChange}
+          placeholder="Equipment Type"
+          className="p-3 border rounded"
+        />
+
+        <input
+          name="weight"
+          value={formData.weight}
+          onChange={handleChange}
+          placeholder="Weight (lbs)"
+          type="number"
+          className="p-3 border rounded"
+        />
+
+        <input
+          name="distance"
+          value={formData.distance}
+          onChange={handleChange}
+          placeholder="Distance (miles)"
+          type="number"
+          className="p-3 border rounded"
+        />
+
+        <input
+          name="price"
+          value={formData.price}
+          onChange={handleChange}
+          placeholder="Price (USD)"
+          type="number"
+          className="p-3 border rounded"
+        />
+
+        <input
+          name="ratePerMile"
+          value={formData.ratePerMile}
+          onChange={handleChange}
+          placeholder="Rate per Mile"
+          type="number"
+          className="p-3 border rounded"
+        />
+
+        <input
+          name="commodity"
+          value={formData.commodity}
+          onChange={handleChange}
+          placeholder="Commodity"
+          className="p-3 border rounded"
+        />
+
+        <input
+          name="company"
+          value={formData.company}
+          onChange={handleChange}
+          placeholder="Company"
+          className="p-3 border rounded"
+        />
+
+        <input
+          name="deadhead"
+          value={formData.deadhead}
+          onChange={handleChange}
+          placeholder="Deadhead Miles"
+          type="number"
+          className="p-3 border rounded"
+        />
+
+        <input
+          name="creditScore"
+          value={formData.creditScore}
+          onChange={handleChange}
+          placeholder="Credit Score"
+          type="number"
+          className="p-3 border rounded"
+        />
+
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            name="factoring"
+            checked={formData.factoring}
+            onChange={handleChange}
+          />
+          <label>Factoring Available</label>
+        </div>
+
+        <input
+          name="daysToPay"
+          value={formData.daysToPay}
+          onChange={handleChange}
+          placeholder="Days to Pay"
+          type="number"
+          className="p-3 border rounded"
+        />
+
+        <input
+          name="brokerPhone"
+          value={formData.brokerPhone}
+          onChange={handleChange}
+          placeholder="Broker Phone"
+          className="p-3 border rounded"
+        />
+
+        <textarea
+          name="specialInstructions"
+          value={formData.specialInstructions}
+          onChange={handleChange}
+          placeholder="Special Instructions"
+          className="p-3 border rounded h-24"
+        ></textarea>
+
+        <button
+          disabled={loading}
+          className="bg-blue-600 text-white p-3 rounded mt-4 disabled:bg-gray-400"
+        >
+          {loading ? "Submitting..." : "Submit Load"}
+        </button>
+      </form>
+    </div>
+  );
+}
