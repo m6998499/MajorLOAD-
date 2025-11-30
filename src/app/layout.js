@@ -3,17 +3,15 @@ import NavBar from "../components/NavBar";
 
 export const metadata = {
   title: "MajorLoad",
-  description: "MajorLoad carrier load board"
+  description: "MajorLoad freight load board",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        <NavBar />
-        <main className="max-w-6xl mx-auto px-4 py-6">
-          {children}
-        </main>
+      <body className="bg-slate-950 text-slate-100">
+        <NavBar />    {/* navbar renders FIRST */}
+        {children}     {/* pages render underneath */}
       </body>
     </html>
   );
