@@ -1,29 +1,11 @@
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Navbar from "@/components/Navbar"; // VERIFY THIS PATH matches your project structure
-import { getServerSession } from "next-auth";
-import { options } from "@/app/api/auth/[...nextauth]/route"; // VERIFY THIS PATH to your auth options
+export { default } from "next-auth/middleware";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata = {
-  title: "MajorLoad",
-  description: "Load Board Application",
+// This list defines which pages are PROTECTED.
+// Users cannot see these pages unless they are logged in.
+export const config = { 
+  matcher: [
+    "/loadboard", 
+    "/postload",
+    "/dashboard" 
+  ] 
 };
-
-export default async function RootLayout({ children }) {
-  // 1. Check if the user is logged in
-  const session = await getServerSession(options);
-
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        {/* 2. Only render Navbar if a session exists */}
-        {session && <Navbar />} 
-        
-        {/* 3. Render the page content (Login or Load Board) */}
-        {children}
-      </body>
-    </html>
-  );
-}
