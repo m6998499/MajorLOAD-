@@ -33,8 +33,18 @@ export default function LoginPage() {
           Sign In
         </button>
 
-        {/* Google auth */}
+        {/* Google auth - FIXED: Added callbackUrl to redirect to /loadboard */}
         <button
+          onClick={() => signIn("google", { callbackUrl: "/loadboard" })}
+          className="w-full bg-white text-black font-semibold p-3 rounded"
+        >
+          Continue with Google
+        </button>
+      </div>
+    </div>
+  );
+}
+<button
           onClick={() => signIn("google")}
           className="w-full bg-white text-black font-semibold p-3 rounded"
         >
