@@ -1,18 +1,27 @@
+import { Inter } from "next/font/google";
 import "./globals.css";
-import NavBar from "../components/NavBar";
+import Navbar from "@/components/Navbar";
+import { getServerSession } from "next-auth";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "MajorLoad",
-  description: "MajorLoad real-time load board",
+  description: "Load Board Application",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  // Check for the user session on the server
+  const session = await getServerSession();
+
   return (
     <html lang="en">
-      <body className="bg-slate-900 text-white">
-        {/* NavBar will internally hide itself on /login */}
-        <NavBar />
-        <main>{children}</main>
+      <body className={inter.className}>
+        {/* Only render the Navbar if the user is logged in (has a session) */}
+        {session && <Navbar />}
+        <main>
+            {children}
+        </main>
       </body>
     </html>
   );
