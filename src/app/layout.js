@@ -1,8 +1,5 @@
-"use client";
-
 import "./globals.css";
 import NavBar from "../components/NavBar";
-import { usePathname } from "next/navigation";
 
 export const metadata = {
   title: "MajorLoad",
@@ -10,15 +7,11 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const pathname = usePathname();
-
-  // Hide navbar on login page ONLY
-  const hideNavbar = pathname === "/login";
-
   return (
     <html lang="en">
       <body className="bg-slate-900 text-white">
-        {!hideNavbar && <NavBar />}
+        {/* NavBar will internally hide itself on /login */}
+        <NavBar />
         <main>{children}</main>
       </body>
     </html>
