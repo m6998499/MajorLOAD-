@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 export default function NavBar() {
   const pathname = usePathname();
 
-  // Hide navbar on login page
-  if (pathname === "/login") return null;
+  // FIXED: Hide navbar on specific login path OR the root home page "/"
+  if (pathname === "/login" || pathname === "/") return null;
 
   return (
     <nav className="w-full bg-slate-950 border-b border-slate-800">
