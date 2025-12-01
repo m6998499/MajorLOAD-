@@ -1,28 +1,26 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function NavBar() {
+  const pathname = usePathname();
+
+  // Hide navbar on login page
+  if (pathname === "/login") return null;
+
   return (
-    <nav className="w-full bg-[#020817] border-b border-gray-800">
+    <nav className="w-full bg-slate-950 border-b border-slate-800">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
-        {/* Brand */}
         <Link href="/" className="text-xl font-bold text-white">
           MajorLoad
         </Link>
 
-        {/* Links */}
-        <div className="flex items-center gap-6 text-sm font-medium">
-          {/* 👈 IMPORTANT: Login now goes to "/" */}
-          <Link href="/" className="text-gray-300 hover:text-white">
-            Login
-          </Link>
-
-          <Link href="/loadboard" className="text-gray-300 hover:text-white">
+        <div className="flex items-center gap-4">
+          <Link href="/loadboard" className="text-sm text-slate-200 hover:text-white">
             Load Board
           </Link>
-
-          <Link href="/post-load" className="text-gray-300 hover:text-white">
+          <Link href="/post-load" className="text-sm text-slate-200 hover:text-white">
             Post a Load
           </Link>
         </div>
