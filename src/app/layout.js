@@ -1,17 +1,17 @@
 import "./globals.css";
-import NavBar from "../components/NavBar";
+import NavBar from "./components/NavBar";
 
 export const metadata = {
   title: "MajorLoad",
-  description: "MajorLoad freight load board",
+  description: "MajorLoad real-time load board",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-slate-950 text-slate-100">
-        <NavBar />    {/* navbar renders FIRST */}
-        {children}     {/* pages render underneath */}
+      <body className="bg-slate-950 text-white">
+        <NavBar />
+        <main>{children}</main>
       </body>
     </html>
   );
