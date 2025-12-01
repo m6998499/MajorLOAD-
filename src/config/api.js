@@ -1,4 +1,10 @@
 // src/config/api.js
-export const API_BASE_URL = 'https://majorload-backend.onrender.com';
-// or use the exact Render backend URL you’re using
-// e.g. https://majorload.onrender.com if that is the one that shows “LoadLink API is running”
+
+// 👇 Your Render backend URL (keep the https and no trailing slash)
+const API_BASE_URL = "https://majorload.onrender.com";
+
+// Default export (what loadboard/page.js expects)
+export default API_BASE_URL;
+
+// Optional: if later you want named imports, this line makes it available too
+export { API_BASE_URL };
