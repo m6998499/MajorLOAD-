@@ -8,8 +8,8 @@ export default withAuth({
 
 export const config = {
   matcher: [
-    "/loadboard/:path*",
-    "/post-load/:path*",
-    "/"
+    "/",               // Lock homepage
+    "/loadboard/:path*",  
+    "/post-load/:path*"
   ],
 };
