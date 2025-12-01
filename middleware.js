@@ -1,9 +1,15 @@
-export { default } from "next-auth/middleware";
+import { withAuth } from "next-auth/middleware";
+
+export default withAuth({
+  pages: {
+    signIn: "/login",
+  },
+});
 
 export const config = {
   matcher: [
-    "/",              // homepage
-    "/loadboard/:path*",   // lock /loadboard and anything inside it
-    "/post-load/:path*",   // lock /post-load and anything inside it
+    "/loadboard/:path*",
+    "/post-load/:path*",
+    "/"
   ],
 };
