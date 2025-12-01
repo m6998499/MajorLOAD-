@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+// FIXED: Changed "Navbar" to "NavBar" (Capital B) to match your file exactly
+import Navbar from "../components/NavBar"; 
 import { getServerSession } from "next-auth";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -11,13 +12,12 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  // Check for the user session on the server
   const session = await getServerSession();
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* Only render the Navbar if the user is logged in (has a session) */}
+        {/* Only render the Navbar if the user is logged in */}
         {session && <Navbar />}
         <main>
             {children}
