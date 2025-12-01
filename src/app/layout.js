@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-// FIXED: Changed "Navbar" to "NavBar" (Capital B) to match your file exactly
+// FIXED: Capital "B" in NavBar to match your file name exactly
 import Navbar from "../components/NavBar"; 
 import { getServerSession } from "next-auth";
 
@@ -17,7 +17,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* Only render the Navbar if the user is logged in */}
+        {/* The Navbar will ONLY show if the user is logged in */}
         {session && <Navbar />}
         <main>
             {children}
