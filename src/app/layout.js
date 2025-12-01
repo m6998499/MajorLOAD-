@@ -1,8 +1,13 @@
 "use client";
 
 import "./globals.css";
-import NavBar from "@/components/NavBar";
+import NavBar from "../components/NavBar";
 import { usePathname } from "next/navigation";
+
+export const metadata = {
+  title: "MajorLoad",
+  description: "MajorLoad real-time load board",
+};
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -12,8 +17,8 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body>
-        {!hideNavbar && <NavBar />}  {/* navbar only when logged in */}
+      <body className="bg-slate-900 text-white">
+        {!hideNavbar && <NavBar />}
         <main>{children}</main>
       </body>
     </html>
