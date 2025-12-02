@@ -1,27 +1,22 @@
+// src/app/layout.js
+
 import { Inter } from "next/font/google";
 import "./globals.css";
-// FIXED: Capital "B" in NavBar to match your file name exactly
-import Navbar from "../components/Navbar"; 
-import { getServerSession } from "next-auth";
+import Header from "../components/Header"; // <--- CHANGE THIS IMPORT
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "MajorLoad",
-  description: "Load Board Application",
+  description: "Load board for truckers",
 };
 
-export default async function RootLayout({ children }) {
-  const session = await getServerSession();
-
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* The Navbar will ONLY show if the user is logged in */}
-        {session && <Navbar />}
-        <main>
-            {children}
-        </main>
+        <Header /> {/* <--- CHANGE THIS COMPONENT TAG */}
+        {children}
       </body>
     </html>
   );
