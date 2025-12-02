@@ -16,6 +16,7 @@ export const authOptions = {
   callbacks: {
     async session({ session, token }) {
       if (session.user) {
+        // This attaches the user ID to the session so we can use it later
         session.user.id = token.sub;
       }
       return session;
