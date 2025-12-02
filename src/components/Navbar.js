@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function NavBar() {
+export default function Navbar() {
   const pathname = usePathname();
 
   // Logic: Hide navbar on login page OR the root home page "/"
