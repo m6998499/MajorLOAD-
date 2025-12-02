@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 // FIXED: Capital "B" in NavBar to match your file name exactly
-import Navbar from "../components/NavBar"; 
+import Navbar from "../components/Navbar"; 
 import { getServerSession } from "next-auth";
 
 const inter = Inter({ subsets: ["latin"] });
