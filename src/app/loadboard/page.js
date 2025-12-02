@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 // FIXED: Using direct relative paths instead of aliases
 import { authOptions } from "../../lib/authSettings"; 
-import { checkPremium } from "../../actions/premiumActions";
+import { checkPremium } from "../../actions/checkPremium";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import Header from "../../components/Header";
