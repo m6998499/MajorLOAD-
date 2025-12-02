@@ -1,6 +1,8 @@
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { db } from "@/lib/db"; 
+
+// FIXED: Use ./db because they are neighbors in the same folder
+import { db } from "./db"; 
 
 export const authOptions = {
   adapter: PrismaAdapter(db),
