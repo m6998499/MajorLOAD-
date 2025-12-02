@@ -5,6 +5,7 @@ import { checkPremium } from "../../actions/checkPremium";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import Header from "../../components/Header";
+import LoadList from "../../components/LoadList";
 
 export default async function LoadBoardPage() {
   // 1. Get the session
@@ -70,12 +71,7 @@ export default async function LoadBoardPage() {
             </div>
           )}
 
-          {/* Placeholder for Data */}
-          <div className="bg-white rounded-lg shadow p-8 text-center text-slate-400">
-            (Load List Component will appear here)
-          </div>
-        </div>
-      </div>
+<LoadList />
     </>
   );
 }
