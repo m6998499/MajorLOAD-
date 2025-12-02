@@ -1,25 +1,7 @@
-import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { db } from "@/lib/db"; 
+import NextAuth from "next-auth";
+// CHANGED: Importing from the new file name
+import { authOptions } from "@/lib/authConfig"; 
 
-export const authOptions = {
-  adapter: PrismaAdapter(db),
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
-  ],
-  session: {
-    strategy: "jwt",
-  },
-  callbacks: {
-    async session({ session, token }) {
-      if (session.user) {
-        // This attaches the user ID to the session so we can use it later
-        session.user.id = token.sub;
-      }
-      return session;
-    },
-  },
-};
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };
