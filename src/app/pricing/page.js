@@ -1,11 +1,11 @@
 "use client";
 import Link from "next/link";
-import NavBar from "@/components/Navbar"; // Ensure this path matches your structure
+import Navbar from "@/components/Navbar"; // Ensure this path matches your structure
 
 export default function PricingPage() {
   return (
     <div className="min-h-screen bg-slate-900 text-white">
-      <NavBar />
+      <Navbar />
       <div className="flex flex-col items-center justify-center py-20 px-4">
         <h1 className="text-4xl font-bold mb-8">Upgrade to Premium</h1>
         
