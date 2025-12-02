@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import NavBar from "@/components/NavBar"; // Ensure this path matches your structure
+import NavBar from "@/components/Navbar"; // Ensure this path matches your structure
 
 export default function PricingPage() {
   return (
