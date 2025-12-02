@@ -1,107 +1,71 @@
-"use client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { checkPremium } from "@/actions/checkPremium";
+import { redirect } from "next/navigation";
+import Link from "next/link";
 
-import { useEffect, useState } from "react";
-import API_BASE_URL from "../../config/api";
+export default async function LoadBoardPage() {
+  const session = await getServerSession(authOptions);
 
-export default function LoadBoardPage() {
-  const [loads, setLoads] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    async function fetchLoads() {
-      try {
-        const res = await fetch(`${API_BASE_URL}/loads`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch loads");
-        }
-        const data = await res.json();
-        setLoads(data || []);
-      } catch (err) {
-        setError(err.message || "Error loading loads");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchLoads();
-  }, []);
-
-  if (loading) {
-    return <p className="mt-10 text-slate-300">Loading loads…</p>;
+  if (!session) {
+    redirect("/api/auth/signin");
   }
 
-  if (error) {
-    return (
-      <p className="mt-10 text-red-400 text-sm">
-        {error}
-      </p>
-    );
-  }
-
-  if (!loads.length) {
-    return (
-      <p className="mt-10 text-slate-300 text-sm">
-        No loads available right now.
-      </p>
-    );
-  }
+  // Check premium status
+  const isPremium = await checkPremium(session.user.email);
 
   return (
-    <section className="mt-6 space-y-4">
-      <h1 className="text-2xl font-bold mb-4">Available Loads</h1>
-      <div className="space-y-3">
-        {loads.map(load => (
-          <article
-            key={load.id}
-            className="rounded-lg border border-slate-700 bg-slate-900 p-4 text-sm"
+    <div className="min-h-screen bg-slate-50">
+      
+      {/* --- THE BANNER IS BACK HERE --- */}
+      <div className="bg-slate-900 text-white py-12 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Load Board</h1>
+            <p className="text-slate-400">Find the best freight for your truck.</p>
+          </div>
+          
+          <Link 
+            href="/post-load" 
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition shadow-lg"
           >
-            <div className="flex flex-wrap justify-between gap-2">
-              <div>
-                <p className="font-semibold">
-                  {load.origin?.city}, {load.origin?.state} →{" "}
-                  {load.destination?.city}, {load.destination?.state}
-                </p>
-                <p className="text-xs text-slate-400">
-                  Load ID: {load.id} • {load.company}
-                </p>
-              </div>
-              <div className="text-right">
-                <p className="font-semibold text-majorTeal">
-                  ${load.price?.toLocaleString?.() ?? load.price}
-                </p>
-                <p className="text-xs text-slate-400">
-                  {load.distance} mi • ${load.ratePerMile}/mi
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-300">
-              <p>Pickup: {load.pickupDate}</p>
-              <p>Equipment: {load.equipment}</p>
-              <p>Weight: {load.weight} lbs</p>
-              <p>Status: {load.status}</p>
-              <p>Deadhead: {load.deadhead} mi</p>
-              <p>Credit score: {load.creditScore}</p>
-              <p>Days to pay: {load.daysToPay}</p>
-              <p>Factoring: {load.factoring ? "Yes" : "No"}</p>
-            </div>
-
-            {load.specialInstructions && (
-              <p className="mt-2 text-xs text-slate-400">
-                Notes: {load.specialInstructions}
-              </p>
-            )}
-
-            {load.brokerPhone && (
-              <p className="mt-2 text-xs">
-                Broker:{" "}
-                <span className="font-semibold">{load.brokerPhone}</span>
-              </p>
-            )}
-          </article>
-        ))}
+            + Post a Load
+          </Link>
+        </div>
       </div>
-    </section>
+      {/* -------------------------------- */}
+
+      <div className="max-w-6xl mx-auto p-6">
+        {/* Welcome Section */}
+        <div className="mb-6">
+          <p className="text-slate-600">
+            Welcome back, <span className="font-semibold text-slate-900">{session.user.name}</span>
+          </p>
+        </div>
+
+        {/* Premium Status Check */}
+        {isPremium ? (
+          <div className="bg-green-100 border-l-4 border-green-500 p-4 mb-8">
+            <h3 className="font-bold text-green-800">✅ Premium Access Active</h3>
+            <p className="text-green-700 text-sm">You are viewing all premium high-paying loads.</p>
+          </div>
+        ) : (
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+              <h3 className="font-bold text-yellow-800 text-lg">Unlock Premium Loads</h3>
+              <p className="text-yellow-700 text-sm">Upgrade to see rates and exclusive shipper contacts.</p>
+            </div>
+            <Link href="/pricing" className="whitespace-nowrap bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded transition">
+              Upgrade Now
+            </Link>
+          </div>
+        )}
+
+        {/* Placeholder for where the actual list of loads will go */}
+        <div className="bg-white rounded-lg shadow p-8 text-center text-slate-400">
+          (Load List Component will appear here)
+        </div>
+      </div>
+    </div>
   );
-                  }
+          }
