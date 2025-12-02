@@ -92,8 +92,7 @@ export default function PostLoadPage() {
           <div>
             <label className="block mb-1 font-semibold">Pickup Date</label>
             <input type="date" name="pickupDate" onChange={handleChange}
-              className="p-3 rounded bg-gray-800 border border-gray-700 w-full" required />
-          </div>
+              className="p-3 rounded bg-gray-800 border border-gray-700 w-full" />          </div>
 
           {/* Equipment */}
           <div>
