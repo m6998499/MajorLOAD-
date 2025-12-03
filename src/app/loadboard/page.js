@@ -4,7 +4,6 @@ import { authOptions } from "../../lib/authSettings";
 import { checkPremium } from "../../actions/checkPremium";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import Header from "../../components/Header";
 import LoadList from "../../components/LoadList";
 
 export default async function LoadBoardPage() {
@@ -20,10 +19,7 @@ export default async function LoadBoardPage() {
   const isPremium = await checkPremium(session.user.email);
 
   return (
-    <>
-      <Header />
-    
-      <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50">
         
         {/* --- HERO BANNER --- */}
         <div className="bg-slate-900 text-white py-12 px-6">
@@ -73,7 +69,6 @@ export default async function LoadBoardPage() {
 
           <LoadList />
         </div>
-      </div>
-    </>
+    </div>
   );
 }

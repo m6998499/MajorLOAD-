@@ -1,11 +1,9 @@
 "use client";
 import Link from "next/link";
-import Header from "../../components/Header";
 
 export default function DisclaimerPage() {
   return (
     <div className="min-h-screen bg-slate-950">
-      <Header />
       
       <div className="max-w-4xl mx-auto px-6 py-12">
         <h1 className="text-4xl font-bold text-white mb-8">
