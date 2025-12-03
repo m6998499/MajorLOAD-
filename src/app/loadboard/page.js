@@ -20,25 +20,6 @@ export default async function LoadBoardPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-        
-        {/* --- HERO BANNER --- */}
-        <div className="bg-slate-900 text-white py-12 px-6">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">Load Board</h1>
-              <p className="text-slate-400">Find the best freight for your truck.</p>
-            </div>
-            
-            <Link 
-              href="/post-load" 
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition shadow-lg"
-            >
-              + Post a Load
-            </Link>
-          </div>
-        </div>
-        {/* ------------------- */}
-
         <div className="max-w-6xl mx-auto p-6">
           {/* Welcome Message */}
           <div className="mb-6">
