@@ -53,6 +53,8 @@ export default function Header() {
 
                           <Link
             href="/disclaimer"
+            target="_blank"
+            rel="noopener noreferrer"
             className={`text-sm font-medium transition ${
               pathname === "/disclaimer"
                 ? "text-blue-400"
