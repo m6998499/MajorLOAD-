@@ -21,7 +21,7 @@ export default async function LoadBoardPage() {
 
   return (
     <>
-      23
+      <Header />
     
       <div className="min-h-screen bg-slate-50">
         
@@ -71,6 +71,9 @@ export default async function LoadBoardPage() {
             </div>
           )}
 
-<LoadList />
+          <LoadList />
+        </div>
+      </div>
+    </>
   );
 }
