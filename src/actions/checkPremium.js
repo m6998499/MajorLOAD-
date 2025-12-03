@@ -1,8 +1,12 @@
 // src/actions/checkPremium.js
 "use server";
 
-export async function checkPremium() {
-  // TODO: Implement actual premium status checking logic
-  // For now, return false (non-premium user)
-  return false;
+import { isUserPremium } from "../lib/premium";
+
+export async function checkPremium(email) {
+  if (!email) {
+    return false;
+  }
+  
+  return await isUserPremium(email);
 }
