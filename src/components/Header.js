@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+// Header component with navigation links including disclaimer
 
 export default function Header() { 
   const pathname = usePathname();
