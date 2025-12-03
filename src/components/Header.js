@@ -49,6 +49,17 @@ export default function Header() {
             >
               Pricing
             </Link>
+
+                          <Link
+            href="/disclaimer"
+            className={`text-sm font-medium transition ${
+              pathname === "/disclaimer"
+                ? "text-blue-400"
+                : "text-slate-300 hover:text-white"
+            }`}
+          >
+            Disclaimer
+          </Link>
           </div>
         </div>
       </div>
