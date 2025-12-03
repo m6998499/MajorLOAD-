@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 export default function Header() { 
   const pathname = usePathname();
+  console.log("Header component rendering, pathname:", pathname);
   if (pathname === "/login" || pathname === "/") return null;
 
   return (
