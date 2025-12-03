@@ -91,7 +91,7 @@ export default function PostLoadPage() {
           {/* Pickup Date */}
           <div>
             <label className="block mb-1 font-semibold">Pickup Date</label>
-              <input type="date" name="pickupDate" value={formData.pickupDate} onChange={handleChange}              className="p-3 rounded bg-gray-800 border border-gray-700 w-full" />          </div>
+              <input type="date" name="pickupDate" value={formData.pickupDate} onChange={handleChange} className="p-3 rounded bg-gray-800 border border-gray-700 w-full" />              className="p-3 rounded bg-gray-800 border border-gray-700 w-full" />          </div>
                 className="p-3 rounded bg-gray-800 border border-gray-700 w-full" />            <label className="block mb-1 font-semibold">Equipment</label>
             <input type="text" name="equipment" placeholder="Reefer, Van, Flatbed..."
               onChange={handleChange} className="p-3 rounded bg-gray-800 border border-gray-700 w-full" required />
