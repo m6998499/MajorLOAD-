@@ -54,6 +54,7 @@ export default function LoginPage() {
               await signIn("google", { callbackUrl: "/loadboard" });
             } catch (err) {
               setError("Failed to sign in. Please try again.");
+            } finally {
               setIsLoading(false);
             }
           }}
