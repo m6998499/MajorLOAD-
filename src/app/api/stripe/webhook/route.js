@@ -4,7 +4,7 @@ import Stripe from "stripe";
 import { setUserPremium } from "../../../../lib/premium";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2023-10-16",
+  apiVersion: "2024-11-20.acacia",
 });
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -70,7 +70,11 @@ export async function POST(req) {
           );
         }
       } else {
-        console.error("No customer email found in session:", session.id);
+        console.error(
+          "Premium activation skipped - no customer email found in session:",
+          session.id,
+          "Please ensure customer email is collected during checkout."
+        );
       }
     }
 

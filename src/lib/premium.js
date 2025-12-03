@@ -22,6 +22,7 @@ export async function setUserPremium(email, isPremium) {
       });
     } else {
       // User doesn't exist, create them with premium status
+      // Note: name field is optional in the schema, will be populated on first login
       return await db.user.create({
         data: {
           email,
