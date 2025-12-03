@@ -1,7 +1,10 @@
 {
   "name": "majorload-frontend",
   "version": "1.0.0",
+  "description": "A modern load board application for truckers",
   "private": true,
+  "author": "MajorLOAD Team",
+  "keywords": ["load-board", "trucking", "logistics", "nextjs"],
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",

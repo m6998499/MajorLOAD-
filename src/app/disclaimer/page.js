@@ -19,7 +19,7 @@ export default function DisclaimerPage() {
               1. Acceptance of Terms
             </h2>
             <p className="leading-relaxed">
-              By accessing and using MajorLOAD (the "Platform"), you acknowledge that you have read, 
+              By accessing and using MajorLOAD (the &quot;Platform&quot;), you acknowledge that you have read, 
               understood, and agree to be bound by this disclaimer. If you do not agree with any part 
               of this disclaimer, you must not use the Platform.
             </p>
@@ -31,8 +31,8 @@ export default function DisclaimerPage() {
             </h2>
             <p className="leading-relaxed">
               The Platform and all information, content, materials, and services included on or 
-              otherwise made available to you through the Platform are provided on an "AS IS" and 
-              "AS AVAILABLE" basis, without any warranties of any kind, either express or implied. 
+              otherwise made available to you through the Platform are provided on an &quot;AS IS&quot; and 
+              &quot;AS AVAILABLE&quot; basis, without any warranties of any kind, either express or implied. 
               We make no representations or warranties of any kind, express or implied, as to the 
               operation of the Platform or the information, content, materials, or services included 
               on or made available through the Platform.
@@ -70,7 +70,7 @@ export default function DisclaimerPage() {
               You agree to defend, indemnify, and hold harmless MajorLOAD and its officers, directors, 
               employees, agents, affiliates, and licensors from and against any and all claims, damages, 
               obligations, losses, liabilities, costs, debt, and expenses (including but not limited to 
-              attorney's fees) arising from: (a) your use of and access to the Platform; (b) your violation 
+              attorney&apos;s fees) arising from: (a) your use of and access to the Platform; (b) your violation 
               of any term of this disclaimer; (c) your violation of any third party right, including without 
               limitation any copyright, property, or privacy right; or (d) any claim that your use of the 
               Platform caused damage to a third party.

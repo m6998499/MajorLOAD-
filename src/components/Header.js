@@ -50,19 +50,16 @@ export default function Header() {
             >
               Pricing
             </Link>
-
-                          <Link
-            href="/disclaimer"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`text-sm font-medium transition ${
-              pathname === "/disclaimer"
-                ? "text-blue-400"
-                : "text-slate-300 hover:text-white"
-            }`}
-          >
-            Disclaimer
-          </Link>
+            
+            {/* Show Disclaimer link only on load board and post-load pages */}
+            {(pathname === "/loadboard" || pathname === "/post-load") && (
+              <Link
+                href="/disclaimer"
+                className="text-sm font-medium text-slate-300 hover:text-white transition"
+              >
+                Disclaimer
+              </Link>
+            )}
           </div>
         </div>
       </div>
