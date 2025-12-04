@@ -58,10 +58,11 @@ export async function POST(req) {
         console.log("Marking user as premium:", customerEmail);
         
         try {
-          // Mark the user as premium in the database
-          await db.user.update({
+          // Mark the user as premium in the database (create if doesn't exist)
+          await db.user.upsert({
             where: { email: customerEmail },
-            data: { is_premium: true }
+            update: { is_premium: true },
+            create: { email: customerEmail, is_premium: true }
           });
           console.log("Successfully marked user as premium:", customerEmail);
         } catch (err) {
