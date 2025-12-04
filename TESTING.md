@@ -50,7 +50,7 @@ This document describes how to manually test the Stripe premium feature integrat
    ```
    - Open the `User` table
    - Find the user by email
-   - Verify `isPremium` is set to `true`
+   - Verify `is_premium` is set to `true`
 
 ### 2. Test Premium Status Check
 
@@ -114,7 +114,7 @@ node test-premium.js
 **Success Case:**
 - Status: 200 OK
 - Response: `{ "received": true }`
-- User's `isPremium` field updated to `true` in database
+- User's `is_premium` field updated to `true` in database
 - Logs show successful processing
 
 **Error Cases:**
@@ -148,7 +148,7 @@ node test-premium.js
 
 ### User Not Seeing Premium Features
 - Verify user is signed in with the correct email
-- Check database to confirm `isPremium` is `true`
+- Check database to confirm `is_premium` is `true`
 - Clear browser cache and cookies
 - Ensure `checkPremium` is being called with correct email
 
@@ -158,13 +158,10 @@ The User model should have the following structure:
 
 ```prisma
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  isPremium Boolean  @default(false)  // This field should exist
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  loads     Load[]
+  id         Int     @id @default(autoincrement())
+  email      String  @unique
+  is_premium Boolean @default(false)  // This field should exist
+  loads      Load[]
 }
 ```
 

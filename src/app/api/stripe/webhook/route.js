@@ -1,7 +1,7 @@
 // src/app/api/stripe/webhook/route.js
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { setUserPremium } from "../../../../lib/premium";
+import { db } from "../../../../lib/db";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2024-11-20.acacia",
@@ -58,8 +58,12 @@ export async function POST(req) {
         console.log("Marking user as premium:", customerEmail);
         
         try {
-          // Mark the user as premium in the database
-          await setUserPremium(customerEmail, true);
+          // Mark the user as premium in the database (create if doesn't exist)
+          await db.user.upsert({
+            where: { email: customerEmail },
+            update: { is_premium: true },
+            create: { email: customerEmail, is_premium: true }
+          });
           console.log("Successfully marked user as premium:", customerEmail);
         } catch (err) {
           console.error("Error setting user premium status:", err);

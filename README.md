@@ -126,13 +126,10 @@ npm start
 ### User Model
 ```prisma
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  isPremium Boolean  @default(false)  // Premium status flag
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  loads     Load[]
+  id         Int     @id @default(autoincrement())
+  email      String  @unique
+  is_premium Boolean @default(false)  // Premium status flag
+  loads      Load[]
 }
 ```
 
