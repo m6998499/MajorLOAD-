@@ -18,15 +18,14 @@ export async function setUserPremium(email, isPremium) {
       // User exists, update their premium status
       return await db.user.update({
         where: { email },
-        data: { isPremium },
+        data: { is_premium: isPremium },
       });
     } else {
       // User doesn't exist, create them with premium status
-      // Note: name field is optional in the schema, will be populated on first login
       return await db.user.create({
         data: {
           email,
-          isPremium,
+          is_premium: isPremium,
         },
       });
     }
@@ -45,10 +44,10 @@ export async function isUserPremium(email) {
   try {
     const user = await db.user.findUnique({
       where: { email },
-      select: { isPremium: true },
+      select: { is_premium: true },
     });
 
-    return user?.isPremium || false;
+    return user?.is_premium || false;
   } catch (error) {
     console.error("Error checking user premium status:", error);
     return false;

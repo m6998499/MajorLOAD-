@@ -8,13 +8,10 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  isPremium Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  loads     Load[]
+  id         Int     @id @default(autoincrement())
+  email      String  @unique
+  is_premium Boolean @default(false)
+  loads      Load[]
 }
 
 model Load {
@@ -24,7 +21,7 @@ model Load {
   weight      Float
   price       Float
   status      String   @default("available")
-  userId      String
+  userId      Int
   user        User     @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
