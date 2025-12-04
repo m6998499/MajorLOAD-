@@ -37,7 +37,7 @@ export default function PricingPage() {
           </ul>
           
           <a
-            href="https://buy.stripe.com/00w6oIb5I8T7fZJdzO9Ve01"
+            href="https://buy.stripe.com/test_9B64gA2zcfhv3cX1R69Ve00"
             className="w-full bg-cyan-500 hover:bg-cyan-600 p-3 rounded mb-4 font-semibold text-white transition block text-center"
           >
             Subscribe Now
