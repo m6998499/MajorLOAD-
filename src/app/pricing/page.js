@@ -10,8 +10,8 @@ export default function PricingPage() {
   const [stripeLink, setStripeLink] = useState(STRIPE_CHECKOUT_URL);
   
   useEffect(() => {
-    // Set success URL dynamically on client side to redirect to premium post-load page
-    const successUrl = `${window.location.origin}/premium-post-load`;
+    // Set success URL dynamically on client side to redirect to success page (premium load board)
+    const successUrl = `${window.location.origin}/success`;
     setStripeLink(`${STRIPE_CHECKOUT_URL}?success_url=${encodeURIComponent(successUrl)}`);
   }, []);
   
