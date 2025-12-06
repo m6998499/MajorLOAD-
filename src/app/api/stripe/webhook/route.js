@@ -3,13 +3,19 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { setUserPremium } from "../../../../lib/premium";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2024-11-20.acacia",
-});
-
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+// Lazy initialize Stripe to avoid build-time errors
+const getStripe = () => {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error("STRIPE_SECRET_KEY is not configured");
+  }
+  return new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2024-11-20.acacia",
+  });
+};
 
 export async function POST(req) {
+  const stripe = getStripe();
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   try {
     const body = await req.text();
     const signature = req.headers.get("stripe-signature");
@@ -33,6 +39,8 @@ export async function POST(req) {
         { error: `Webhook Error: ${err.message}` },
         { status: 400 }
       );
+      console.log("✅ STRIPE WEBHOOK RECEIVED - Event Type:", event.type);
+      
     }
 
     // Handle the checkout.session.completed event
