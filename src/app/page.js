@@ -33,9 +33,9 @@ export default function LoginPage() {
           Sign In
         </button>
 
-        {/* Google Sign In Button - Redirects to Load Board */}
+        {/* Google Sign In Button */}
         <button
-          onClick={() => signIn("google", { callbackUrl: "/loadboard" })}
+          onClick={() => signIn("google")}
           className="w-full bg-white text-black font-semibold p-3 rounded hover:bg-gray-200 transition"
         >
           Continue with Google
