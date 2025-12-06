@@ -25,7 +25,7 @@ export default function SuccessPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log("/success page loaded");
+    console.log("/success: Page loaded");
     const refreshSession = async () => {
       try {
         console.log("/success: Starting session refresh");
