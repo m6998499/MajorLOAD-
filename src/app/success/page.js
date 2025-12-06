@@ -25,34 +25,43 @@ export default function SuccessPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log("/success page loaded");
     const refreshSession = async () => {
       try {
+        console.log("/success: Starting session refresh");
         // Force session refresh to pick up premium status from database
         // This is called after Stripe webhook has updated the database
         await update();
+        console.log("/success: Session refresh completed");
         
         // Show success message briefly before redirecting
         setIsRefreshing(false);
         
         // Redirect to loadboard after showing success message
+        console.log("/success: Waiting before redirect to /loadboard");
         await new Promise(resolve => setTimeout(resolve, 2000));
+        console.log("/success: Redirecting to /loadboard");
         router.push("/loadboard");
       } catch (err) {
-        console.error("Error refreshing session:", err);
+        console.error("/success: Error refreshing session:", err);
         setError("Failed to refresh session. Please try signing out and back in.");
         setIsRefreshing(false);
       }
     };
 
     if (session) {
+      console.log("/success: User session found, starting refresh process");
       refreshSession();
     } else if (session === null) {
       // User is not signed in - redirect to sign in page
+      console.log("/success: No user session found, redirecting to sign in");
       setError("Please sign in to view this page.");
       setIsRefreshing(false);
       setTimeout(() => {
         router.push("/api/auth/signin");
       }, 2000);
+    } else {
+      console.log("/success: Session is loading, waiting...");
     }
     // session === undefined means loading, so we wait
   }, [session, update, router]);
