@@ -9,7 +9,22 @@ This PR introduces **breaking changes** to the User model schema:
 2. `isPremium` → `is_premium` (snake_case)
 3. Removed fields: `name`, `createdAt`, `updatedAt`
 
-## Migration Steps
+## Quick Fix for "Premium status not showing" Issue
+
+If you just tested a payment and the premium banner isn't showing:
+
+**The database column name changed from `isPremium` to `is_premium`.**
+
+Run this SQL in your Neon Postgres console:
+```sql
+ALTER TABLE "User" RENAME COLUMN "isPremium" TO "is_premium";
+```
+
+Then clear your browser session and re-login. The premium status should now appear.
+
+## Full Migration Steps
+
+Choose the option that best fits your situation:
 
 ### Option 1: Fresh Database (Development/Testing)
 
@@ -43,23 +58,28 @@ CREATE TABLE "User_new" (
 );
 
 -- Copy existing data, mapping old IDs to new integer IDs
+-- Note: Order determines the new integer IDs (1, 2, 3, etc.)
 INSERT INTO "User_new" (email, is_premium)
 SELECT email, "isPremium" 
 FROM "User"
-ORDER BY "createdAt";
+ORDER BY email;
 
--- Update the Load table to reference new User IDs
--- This is complex because we're changing from String to Int IDs
--- You may need to temporarily drop the foreign key constraint
+-- WARNING: Foreign key migration is complex with ID type changes
+-- The Load table references User IDs, which are changing from String to Int
+-- This approach will LOSE the relationship data between users and loads
 
--- Drop the old User table
+-- Option A: If Load relationships aren't critical, drop and recreate
+DROP TABLE "Load";
 DROP TABLE "User" CASCADE;
-
--- Rename the new table
 ALTER TABLE "User_new" RENAME TO "User";
 
--- Recreate foreign key relationships
--- (Adjust based on your Load table structure)
+-- Recreate Load table with new foreign key (see schema.prisma)
+-- Users will need to re-post their loads
+
+-- Option B: If you need to preserve Load relationships, you'll need:
+-- 1. Create a mapping table: old_user_id -> new_user_id
+-- 2. Update all Load.userId values using the mapping
+-- 3. This is highly complex; consider exporting/importing data instead
 ```
 
 #### Step 3: Update Prisma
@@ -121,8 +141,12 @@ After migration, verify the changes:
 
 ## Important Notes
 
-⚠️ **Breaking Change**: This migration changes the primary key from String to Integer. All foreign key relationships need to be updated.
+⚠️ **Breaking Change**: This migration changes the primary key from String to Integer. All foreign key relationships (like Load.userId) will be broken and need manual updating or recreation.
 
-⚠️ **Data Loss Risk**: Changing ID types can break relationships. Test thoroughly in development first.
+⚠️ **Data Loss Risk**: The migration may result in loss of relationship data (loads connected to users). Back up your database before proceeding.
 
-✅ **Recommendation**: For production, consider a gradual migration or keeping both columns temporarily during transition.
+✅ **Recommendation**: 
+- For new/testing environments: Use Option 1 (fresh database)
+- For production with minimal data: Use Option 3 (simple column rename if only field names changed)
+- For production with important data: Consider keeping the old schema or planning a maintenance window for careful migration
+- The relationship between Users and Loads will need to be re-established after ID type migration
