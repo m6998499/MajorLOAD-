@@ -32,20 +32,18 @@ export const authOptions = {
         token.email = user.email;
       }
       
-            // ALWAYS fetch latest premium status from DB on every token refresh
+      // ALWAYS fetch latest premium status from DB on every token refresh
       if (token.email) {
-        if (token.email) {
-          try {
-            const dbUser = await db.user.findUnique({
-              where: { email: token.email },
-              select: { isPremium: true },
-            });
-            token.isPremium = dbUser?.isPremium || false;
-          } catch (error) {
-            console.error("Error fetching user premium status:", error);
-            token.isPremium = false;
-          }
-
+        try {
+          const dbUser = await db.user.findUnique({
+            where: { email: token.email },
+            select: { isPremium: true },
+          });
+          token.isPremium = dbUser?.isPremium || false;
+        } catch (error) {
+          console.error("Error fetching user premium status:", error);
+          token.isPremium = false;
+        }
       }
       
       return token;
