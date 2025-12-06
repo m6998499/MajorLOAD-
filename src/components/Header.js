@@ -1,11 +1,18 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-// Header component with navigation links including disclaimer
+import { useSession, signOut } from "next-auth/react";
+// Header component with navigation links including disclaimer and sign out
 
 export default function Header() { 
   const pathname = usePathname();
+  const { data: session } = useSession();
+  
   if (pathname === "/login" || pathname === "/") return null;
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: "/" });
+  };
 
   return (
     <nav className="w-full bg-slate-950 border-b border-slate-800">
@@ -51,18 +58,28 @@ export default function Header() {
               Pricing
             </Link>
 
-                          <Link
-            href="/disclaimer"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`text-sm font-medium transition ${
-              pathname === "/disclaimer"
-                ? "text-blue-400"
-                : "text-slate-300 hover:text-white"
-            }`}
-          >
-            Disclaimer
-          </Link>
+            <Link
+              href="/disclaimer"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`text-sm font-medium transition ${
+                pathname === "/disclaimer"
+                  ? "text-blue-400"
+                  : "text-slate-300 hover:text-white"
+              }`}
+            >
+              Disclaimer
+            </Link>
+
+            {/* Sign Out Button - only show if user is signed in */}
+            {session && (
+              <button
+                onClick={handleSignOut}
+                className="text-sm font-medium text-slate-300 hover:text-white transition"
+              >
+                Sign Out
+              </button>
+            )}
           </div>
         </div>
       </div>
