@@ -57,6 +57,8 @@ npx prisma generate
 npx prisma db push
 ```
 
+> **⚠️ Important**: If upgrading from a previous version, see [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) for schema migration instructions. The User model now uses `is_premium` (snake_case) and integer IDs.
+
 ## Stripe Webhook Setup
 
 To receive payment notifications and activate premium features automatically:
