@@ -37,3 +37,6 @@ next-env.d.ts
 
 # eslint
 .eslintrc.json
+
+# test files
+test-*.js
