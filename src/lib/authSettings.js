@@ -32,8 +32,8 @@ export const authOptions = {
         token.email = user.email;
       }
       
-      // When session is updated (via update() call) or on sign in, refresh premium status from DB
-      if (trigger === "update" || user) {
+            // ALWAYS fetch latest premium status from DB on every token refresh
+      if (token.email) {
         if (token.email) {
           try {
             const dbUser = await db.user.findUnique({
@@ -45,7 +45,7 @@ export const authOptions = {
             console.error("Error fetching user premium status:", error);
             token.isPremium = false;
           }
-        }
+
       }
       
       return token;
