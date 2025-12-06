@@ -31,14 +31,12 @@ export default function SuccessPage() {
         // This is called after Stripe webhook has updated the database
         await update();
         
-        // Wait a moment to ensure the refresh completes
-        setTimeout(() => {
-          setIsRefreshing(false);
-          // Redirect to loadboard after 2 seconds
-          setTimeout(() => {
-            router.push("/loadboard");
-          }, 2000);
-        }, 1000);
+        // Show success message briefly before redirecting
+        setIsRefreshing(false);
+        
+        // Redirect to loadboard after showing success message
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        router.push("/loadboard");
       } catch (err) {
         console.error("Error refreshing session:", err);
         setError("Failed to refresh session. Please try signing out and back in.");
@@ -48,7 +46,15 @@ export default function SuccessPage() {
 
     if (session) {
       refreshSession();
+    } else if (session === null) {
+      // User is not signed in - redirect to sign in page
+      setError("Please sign in to view this page.");
+      setIsRefreshing(false);
+      setTimeout(() => {
+        router.push("/api/auth/signin");
+      }, 2000);
     }
+    // session === undefined means loading, so we wait
   }, [session, update, router]);
 
   return (
