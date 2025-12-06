@@ -29,7 +29,7 @@ export default function SuccessPage() {
     
     const refreshSession = async () => {
       try {
-        console.log("Starting session refresh for user:", session?.user?.email);
+        console.log("Starting session refresh for authenticated user");
         
         // Force session refresh to pick up premium status from database
         // This is called after Stripe webhook has updated the database
