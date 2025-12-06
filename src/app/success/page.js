@@ -25,11 +25,17 @@ export default function SuccessPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log("User accessed /success page");
+    
     const refreshSession = async () => {
       try {
+        console.log("Starting session refresh for user:", session?.user?.email);
+        
         // Force session refresh to pick up premium status from database
         // This is called after Stripe webhook has updated the database
         await update();
+        
+        console.log("Session refresh completed successfully for user:", session?.user?.email);
         
         // Show success message briefly before redirecting
         setIsRefreshing(false);
@@ -48,6 +54,7 @@ export default function SuccessPage() {
       refreshSession();
     } else if (session === null) {
       // User is not signed in - redirect to sign in page
+      console.log("User not signed in on /success page, redirecting to sign in");
       setError("Please sign in to view this page.");
       setIsRefreshing(false);
       setTimeout(() => {
