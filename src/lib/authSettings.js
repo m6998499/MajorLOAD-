@@ -30,9 +30,27 @@ export const authOptions = {
       // On sign in, add user email to token
       if (user) {
         token.email = user.email;
+        token.name = user.name;
+        
+        // Create user in DB if they don't exist
+        try {
+          await db.user.upsert({
+            where: { email: user.email },
+            update: {
+              name: user.name,
+            },
+            create: {
+              email: user.email,
+              name: user.name,
+              isPremium: false,
+            },
+          });
+        } catch (error) {
+          console.error("Error creating/updating user:", error);
+        }
       }
       
-      // ALWAYS fetch latest premium status from DB on every token refresh
+      // Fetch latest premium status from DB
       if (token.email) {
         try {
           const dbUser = await db.user.findUnique({
