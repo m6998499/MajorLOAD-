@@ -1,6 +1,17 @@
 // src/app/pricing/page.js
+"use client";
+
+import { useEffect, useState } from "react";
 
 export default function PricingPage() {
+  const [stripeLink, setStripeLink] = useState("https://buy.stripe.com/test_9B64gA2zcfhv3cX1R69Ve00");
+  
+  useEffect(() => {
+    // Set success URL dynamically on client side
+    const successUrl = `${window.location.origin}/premium-post-load`;
+    setStripeLink(`https://buy.stripe.com/test_9B64gA2zcfhv3cX1R69Ve00?success_url=${encodeURIComponent(successUrl)}`);
+  }, []);
+  
   return (
     <div className="flex items-center justify-center min-h-screen px-4 bg-slate-900">
       <div className="bg-slate-800 p-8 rounded-xl shadow-xl w-full max-w-md">
@@ -37,7 +48,7 @@ export default function PricingPage() {
           </ul>
           
           <a
-            href="https://buy.stripe.com/test_9B64gA2zcfhv3cX1R69Ve00"
+            href={stripeLink}
             className="w-full bg-cyan-500 hover:bg-cyan-600 p-3 rounded mb-4 font-semibold text-white transition block text-center"
           >
             Subscribe Now

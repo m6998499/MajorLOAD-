@@ -30,10 +30,20 @@ export default async function LoadBoardPage() {
 
           {/* Premium vs Free Logic */}
           {isPremium ? (
-            // IF PREMIUM: Show Green Box
+            // IF PREMIUM: Show Green Box with Premium Post Load Link
             <div className="bg-green-100 border-l-4 border-green-500 p-4 mb-8">
-              <h3 className="font-bold text-green-800">✅ Premium Access Active</h3>
-              <p className="text-green-700 text-sm">You are viewing all premium high-paying loads.</p>
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="font-bold text-green-800">✅ Premium Access Active</h3>
+                  <p className="text-green-700 text-sm">You are viewing all premium high-paying loads.</p>
+                </div>
+                <Link 
+                  href="/premium-post-load" 
+                  className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition whitespace-nowrap"
+                >
+                  ✨ Post Premium Load
+                </Link>
+              </div>
             </div>
           ) : (
             // IF FREE: Show Upgrade Box
