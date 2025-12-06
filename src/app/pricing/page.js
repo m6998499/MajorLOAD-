@@ -4,12 +4,15 @@
 import { useEffect, useState } from "react";
 
 export default function PricingPage() {
-  const [stripeLink, setStripeLink] = useState("https://buy.stripe.com/test_9B64gA2zcfhv3cX1R69Ve00");
+  // Base Stripe checkout link - update this with your actual Stripe payment link
+  const STRIPE_CHECKOUT_URL = "https://buy.stripe.com/test_9B64gA2zcfhv3cX1R69Ve00";
+  
+  const [stripeLink, setStripeLink] = useState(STRIPE_CHECKOUT_URL);
   
   useEffect(() => {
-    // Set success URL dynamically on client side
+    // Set success URL dynamically on client side to redirect to premium post-load page
     const successUrl = `${window.location.origin}/premium-post-load`;
-    setStripeLink(`https://buy.stripe.com/test_9B64gA2zcfhv3cX1R69Ve00?success_url=${encodeURIComponent(successUrl)}`);
+    setStripeLink(`${STRIPE_CHECKOUT_URL}?success_url=${encodeURIComponent(successUrl)}`);
   }, []);
   
   return (
