@@ -17,6 +17,11 @@ import { db } from "./db";
 
 /**
  * Simple in-memory cache implementation
+ * 
+ * NOTE: This is a separate cache instance from src/lib/cache.js for
+ * demonstration and testing purposes. In production, you would use the
+ * shared cache from src/lib/cache.js or Prisma Accelerate.
+ * 
  * Good for: Development, single-server deployments
  * Limitations: Cache lost on restart, not shared across servers
  */
@@ -81,21 +86,30 @@ export function getCacheStats() {
 
 // Automatic cleanup of expired entries (runs every minute)
 if (typeof setInterval !== 'undefined') {
-  setInterval(() => {
-    const now = Date.now();
-    let cleaned = 0;
-    
-    for (const [key, value] of memoryCache.entries()) {
-      if (now >= value.expiresAt) {
-        memoryCache.delete(key);
-        cleaned++;
+  const cleanupInterval = setInterval(() => {
+    try {
+      const now = Date.now();
+      let cleaned = 0;
+      
+      for (const [key, value] of memoryCache.entries()) {
+        if (now >= value.expiresAt) {
+          memoryCache.delete(key);
+          cleaned++;
+        }
       }
-    }
-    
-    if (cleaned > 0) {
-      console.log(`[Cache] Cleaned up ${cleaned} expired entries`);
+      
+      if (cleaned > 0) {
+        console.log(`[Cache] Cleaned up ${cleaned} expired entries`);
+      }
+    } catch (error) {
+      console.error('[Cache] Error during cleanup:', error);
     }
   }, 60000); // Clean every minute
+  
+  // Prevent the interval from keeping the process alive
+  if (cleanupInterval.unref) {
+    cleanupInterval.unref();
+  }
 }
 
 // =============================================================================

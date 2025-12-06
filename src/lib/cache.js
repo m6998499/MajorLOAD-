@@ -50,12 +50,21 @@ export function clearAllCache() {
 
 // Periodic cleanup of expired entries
 if (typeof setInterval !== 'undefined') {
-  setInterval(() => {
-    const now = Date.now();
-    for (const [key, value] of cache.entries()) {
-      if (now >= value.expiresAt) {
-        cache.delete(key);
+  const cleanupInterval = setInterval(() => {
+    try {
+      const now = Date.now();
+      for (const [key, value] of cache.entries()) {
+        if (now >= value.expiresAt) {
+          cache.delete(key);
+        }
       }
+    } catch (error) {
+      console.error('[Cache] Error during cleanup:', error);
     }
   }, 60000);
+  
+  // Prevent the interval from keeping the process alive
+  if (cleanupInterval.unref) {
+    cleanupInterval.unref();
+  }
 }
