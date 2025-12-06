@@ -5,10 +5,12 @@ A Next.js application for managing freight loads with Stripe payment integration
 ## Features
 
 - 🔐 Authentication with NextAuth (Google OAuth)
+- 🚪 Easy sign out functionality from any page
 - 💳 Stripe payment integration for premium subscriptions
 - 📊 Premium load board access
 - 🗄️ Neon Postgres database with Prisma ORM
 - ⚡ Real-time premium status updates via webhooks
+- 🔄 Automatic session refresh after upgrade (no manual sign out/in required)
 
 ## Prerequisites
 
@@ -114,12 +116,15 @@ npm start
 
 1. User clicks "Subscribe Now" on the pricing page
 2. User is redirected to Stripe Checkout
-3. After successful payment, Stripe sends a `checkout.session.completed` event to the webhook
+3. After successful payment, Stripe redirects to `/success` page and sends a `checkout.session.completed` event to the webhook
 4. The webhook handler:
    - Verifies the webhook signature
    - Extracts the customer's email
    - Marks the user as premium in the database
-5. User immediately sees premium features on the load board
+5. The success page automatically refreshes the user's session to reflect premium status
+6. User immediately sees premium features on the load board (no sign out/in required)
+
+**Note:** Configure your Stripe payment link to redirect to `https://yourdomain.com/success` after successful payment for the best user experience.
 
 ## Database Schema
 
@@ -136,6 +141,17 @@ model User {
 }
 ```
 
+## User Interface
+
+### Sign Out
+A "Sign Out" button is available in the header navigation on all authenticated pages. Clicking it will:
+- Sign you out of your session
+- Redirect you to the home page
+- Clear your authentication cookies
+
+### Session Refresh After Payment
+After a successful Stripe payment, the `/success` page automatically refreshes your session to reflect your new premium status. This means you don't need to sign out and back in to see your premium features.
+
 ## API Endpoints
 
 ### Webhook Endpoint
@@ -147,6 +163,12 @@ model User {
 ### Authentication
 - **GET/POST** `/api/auth/[...nextauth]`
   - Handles NextAuth authentication flows
+
+### Success Page
+- **GET** `/success`
+  - Post-payment success page
+  - Automatically refreshes the user's session
+  - Redirects to the load board after activation
 
 ## Testing Webhook Integration
 

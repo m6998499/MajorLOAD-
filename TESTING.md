@@ -62,6 +62,22 @@ This document describes how to manually test the Stripe premium feature integrat
 5. Navigate to `/loadboard`
 6. Verify you see the yellow "Unlock Premium Loads" upgrade box
 
+### 2.5. Test Sign Out Button
+
+**Test Steps:**
+1. Sign in to the application
+2. Navigate to any authenticated page (e.g., `/loadboard`, `/pricing`, `/post-load`)
+3. Look for the "Sign Out" button in the header navigation (top right)
+4. Click the "Sign Out" button
+5. Verify you are redirected to the home page (`/`)
+6. Verify you are no longer authenticated (cannot access `/loadboard` without signing in again)
+7. Sign back in and verify the session is restored
+
+**Expected Behavior:**
+- "Sign Out" button should be visible on all authenticated pages
+- Clicking it should clear the session and redirect to home
+- User should need to sign in again to access protected routes
+
 ### 3. End-to-End Payment Flow
 
 **Test Steps:**
@@ -73,13 +89,19 @@ This document describes how to manually test the Stripe premium feature integrat
    - Any 3-digit CVC
    - Any postal code
 5. Complete the checkout
-6. After redirect, navigate to `/loadboard`
-7. Verify the premium badge appears
+6. **NEW:** After successful payment, you will be redirected to `/success` page
+7. **NEW:** The success page automatically refreshes your session
+8. You will be automatically redirected to `/loadboard` 
+9. Verify the premium badge appears immediately (no manual sign out/in required)
 
 **Webhook Verification:**
 1. Check webhook logs in Stripe CLI or Dashboard
 2. Verify the `checkout.session.completed` event was received
 3. Check application logs for successful premium activation
+
+**Note:** To enable automatic redirect to `/success` after payment:
+- For Stripe payment links: Configure the success URL in Stripe Dashboard to `https://yourdomain.com/success`
+- For custom Stripe checkout sessions: Set `success_url` parameter to `{CHECKOUT_SESSION_ID}` redirect
 
 ### 4. Test Database Functions
 
@@ -147,9 +169,10 @@ node test-premium.js
 - Check application logs for errors
 
 ### User Not Seeing Premium Features
+- **NEW:** After payment, ensure you are redirected to `/success` and wait for automatic session refresh
 - Verify user is signed in with the correct email
 - Check database to confirm `isPremium` is `true`
-- Clear browser cache and cookies
+- If premium status still doesn't show, use the "Sign Out" button in the header and sign back in
 - Ensure `checkPremium` is being called with correct email
 
 ## Database Schema Verification
