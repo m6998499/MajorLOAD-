@@ -2,12 +2,16 @@
 
 ## Schema Changes in This PR
 
-This PR introduces **breaking changes** to the User model schema:
+This PR introduces **breaking changes** to the User model schema.
 
-### Changes
+If your database was using the **OLD schema**, you need to migrate to the **NEW schema**:
+
+### Changes (OLD → NEW)
 1. `id`: `String @default(cuid())` → `Int @default(autoincrement())`
 2. `isPremium` → `is_premium` (snake_case)
 3. Removed fields: `name`, `createdAt`, `updatedAt`
+
+**Current state in this PR:** The code and schema files already use the NEW format. Your **database** needs to be updated to match.
 
 ## Quick Fix for "Premium status not showing" Issue
 
@@ -57,7 +61,8 @@ CREATE TABLE "User_new" (
   is_premium BOOLEAN DEFAULT false NOT NULL
 );
 
--- Copy existing data, mapping old IDs to new integer IDs
+-- Copy existing data from OLD schema to NEW schema
+-- This assumes your database currently has the OLD column "isPremium"
 -- Note: Order determines the new integer IDs (1, 2, 3, etc.)
 INSERT INTO "User_new" (email, is_premium)
 SELECT email, "isPremium" 
