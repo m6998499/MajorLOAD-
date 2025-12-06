@@ -11,6 +11,7 @@ A Next.js application for managing freight loads with Stripe payment integration
 - 🗄️ Neon Postgres database with Prisma ORM
 - ⚡ Real-time premium status updates via webhooks
 - 🔄 Automatic session refresh after upgrade (no manual sign out/in required)
+- 🚀 Query caching for improved performance (see `QUERY_CACHING_GUIDE.md`)
 
 ## Prerequisites
 
@@ -205,6 +206,44 @@ After a successful Stripe payment, the `/success` page automatically refreshes y
 - Check webhook logs in Stripe Dashboard
 - Verify the customer email is being captured correctly
 - Ensure the database connection is working
+
+## Query Caching
+
+MajorLOAD includes query caching to improve performance and reduce database load. The application uses a simple in-memory cache for frequently accessed data like premium status checks.
+
+### Quick Start with Caching
+
+The `isUserPremiumCached` function demonstrates query caching in just a few lines of code:
+
+```javascript
+import { isUserPremiumCached } from '@/lib/premium';
+
+// This query is cached for 30 seconds
+const isPremium = await isUserPremiumCached(userEmail);
+```
+
+### Key Benefits
+
+- **Reduced Database Load**: Frequently accessed data is served from cache
+- **Faster Response Times**: Cache hits are significantly faster than database queries
+- **Automatic Cache Invalidation**: Cache is cleared when data is updated
+
+### Caching Examples
+
+The application includes comprehensive caching examples in:
+- `src/lib/cache.js` - Simple caching utility
+- `src/lib/cache-examples.js` - Detailed examples and patterns
+- `QUERY_CACHING_GUIDE.md` - Complete guide with best practices
+
+### Production Scaling
+
+For production deployments with multiple servers, consider [Prisma Accelerate](https://pris.ly/tip-3-accelerate) which provides:
+- Global edge caching
+- Connection pooling
+- Distributed caching across servers
+- Minimal setup (just a few lines of code)
+
+Learn more in the [Query Caching Guide](./QUERY_CACHING_GUIDE.md).
 
 ## License
 
