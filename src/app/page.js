@@ -7,34 +7,39 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-4">
-      <div className="bg-slate-900 p-8 rounded-xl shadow-xl w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-6">MajorLoad</h1>
+    <div className="flex items-center justify-center min-h-screen px-4 bg-slate-900">
+      <div className="bg-slate-800 p-8 rounded-xl shadow-xl w-full max-w-md">
+        <h1 className="text-3xl font-bold text-center mb-6 text-white">MajorLoad</h1>
 
-        {/* Email Input */}
+        {/* Username Input */}
         <input
-          type="email"
-          className="w-full p-3 rounded mb-4 bg-slate-800 border border-slate-700 text-white"
-          placeholder="Enter your email address"
+          className="w-full p-3 rounded mb-3 bg-slate-700 border border-slate-600 text-white"
+          placeholder="Enter your username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
 
-        {/* Email Sign In Button */}
-        <button
-          onClick={() => {
-            if (username) {
-              signIn("credentials", { email: username, callbackUrl: "/dashboard" });
-            }
-          }}
-          className="w-full bg-cyan-500 hover:bg-cyan-600 p-3 rounded mb-4 font-semibold text-white"
-        >
-          Sign In with Email
+        {/* Password Input */}
+        <input
+          type="password"
+          className="w-full p-3 rounded mb-4 bg-slate-700 border border-slate-600 text-white"
+          placeholder="Enter your password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        {/* Manual Sign In Button */}
+        <button className="w-full bg-cyan-500 hover:bg-cyan-600 p-3 rounded mb-4 font-semibold text-white">
+          Sign In
         </button>
-        
-        <p className="text-center text-sm text-gray-400">
-          No password required - just enter your email
-        </p>
+
+        {/* Google Sign In Button */}
+        <button
+          onClick={() => signIn("google")}
+          className="w-full bg-white text-black font-semibold p-3 rounded hover:bg-gray-200 transition"
+        >
+          Continue with Google
+        </button>
       </div>
     </div>
   );
