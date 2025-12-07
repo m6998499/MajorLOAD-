@@ -26,6 +26,25 @@ export const authOptions = {
     strategy: "jwt",
   },
   callbacks: {
+    async signIn({ user }) {
+      // Create user in DB on first sign in if they don't exist
+      if (user?.email) {
+        try {
+          await db.user.upsert({
+            where: { email: user.email },
+            update: { name: user.name },
+            create: {
+              email: user.email,
+              name: user.name,
+              isPremium: false,
+            },
+          });
+        } catch (error) {
+          console.error("Error creating user:", error);
+        }
+      }
+      return true;
+    },
     async jwt({ token, user, trigger }) {
       // On sign in, add user email to token
       if (user) {
