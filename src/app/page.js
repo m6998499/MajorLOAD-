@@ -11,35 +11,30 @@ export default function LoginPage() {
       <div className="bg-slate-900 p-8 rounded-xl shadow-xl w-full max-w-md">
         <h1 className="text-3xl font-bold text-center mb-6">MajorLoad</h1>
 
-        {/* Username Input */}
+        {/* Email Input */}
         <input
-          className="w-full p-3 rounded mb-3 bg-slate-800 border border-slate-700 text-white"
-          placeholder="Enter your username"
+          type="email"
+          className="w-full p-3 rounded mb-4 bg-slate-800 border border-slate-700 text-white"
+          placeholder="Enter your email address"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
 
-        {/* Password Input */}
-        <input
-          type="password"
-          className="w-full p-3 rounded mb-4 bg-slate-800 border border-slate-700 text-white"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        {/* Manual Sign In Button */}
-        <button className="w-full bg-cyan-500 hover:bg-cyan-600 p-3 rounded mb-4 font-semibold text-white">
-          Sign In
-        </button>
-
-        {/* Google Sign In Button */}
+        {/* Email Sign In Button */}
         <button
-          onClick={() => signIn("google")}
-          className="w-full bg-white text-black font-semibold p-3 rounded hover:bg-gray-200 transition"
+          onClick={() => {
+            if (username) {
+              signIn("credentials", { email: username, callbackUrl: "/dashboard" });
+            }
+          }}
+          className="w-full bg-cyan-500 hover:bg-cyan-600 p-3 rounded mb-4 font-semibold text-white"
         >
-          Continue with Google
+          Sign In with Email
         </button>
+        
+        <p className="text-center text-sm text-gray-400">
+          No password required - just enter your email
+        </p>
       </div>
     </div>
   );
